@@ -7,15 +7,32 @@ async function triggerButton(page, button, key) {
   await page.keyboard.press(key);
 }
 
+// Helper to get the currently focused element tag name
+async function getFocusedTagName(page) {
+  return await page.evaluate(() => {
+    return document.activeElement ? document.activeElement.tagName.toLowerCase() : null;
+  });
+}
+
+// Helper to check if active element has focus-visible style
+async function isActiveFocusVisible(page) {
+  return await page.evaluate(() => {
+    const el = document.activeElement;
+    if (!el) return false;
+    const styles = window.getComputedStyle(el);
+    return styles.outlineStyle !== 'none' && styles.outlineStyle !== '';
+  });
+}
+
 test.describe('Greeting buttons', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('file://' + process.cwd() + '/index.html');
   });
 
   test('should have three greeting buttons', async ({ page }) => {
-    const italian = page.getByRole('button', { name: 'Italiano' });
-    const english = page.getByRole('button', { name: 'English' });
-    const spanish = page.getByRole('button', { name: 'Español' });
+    const italian = page.locator('#btn-it');
+    const english = page.locator('#btn-en');
+    const spanish = page.locator('#btn-es');
     await expect(italian).toBeVisible();
     await expect(english).toBeVisible();
     await expect(spanish).toBeVisible();
@@ -26,7 +43,7 @@ test.describe('Greeting buttons', () => {
       expect(dialog.message()).toBe('Ciao!');
       dialog.dismiss();
     });
-    await page.getByRole('button', { name: 'Italiano' }).click();
+    await page.locator('#btn-it').click();
   });
 
   test('click English button shows Hello!', async ({ page }) => {
@@ -34,7 +51,7 @@ test.describe('Greeting buttons', () => {
       expect(dialog.message()).toBe('Hello!');
       dialog.dismiss();
     });
-    await page.getByRole('button', { name: 'English' }).click();
+    await page.locator('#btn-en').click();
   });
 
   test('click Spanish button shows ¡Hola!', async ({ page }) => {
@@ -42,7 +59,7 @@ test.describe('Greeting buttons', () => {
       expect(dialog.message()).toBe('¡Hola!');
       dialog.dismiss();
     });
-    await page.getByRole('button', { name: 'Español' }).click();
+    await page.locator('#btn-es').click();
   });
 
   test('press Enter on Italian button shows Ciao!', async ({ page }) => {
@@ -50,7 +67,7 @@ test.describe('Greeting buttons', () => {
       expect(dialog.message()).toBe('Ciao!');
       dialog.dismiss();
     });
-    const italian = page.getByRole('button', { name: 'Italiano' });
+    const italian = page.locator('#btn-it');
     await triggerButton(page, italian, 'Enter');
   });
 
@@ -59,7 +76,22 @@ test.describe('Greeting buttons', () => {
       expect(dialog.message()).toBe('Hello!');
       dialog.dismiss();
     });
-    const english = page.getByRole('button', { name: 'English' });
+    const english = page.locator('#btn-en');
     await triggerButton(page, english, 'Space');
+  });
+
+  // NEW TESTS FOR TAB NAVIGATION AND FOCUS-VISIBLE
+  test('buttons are reachable via Tab and show focus-visible style', async ({ page }) => {
+    await page.keyboard.press('Tab');
+    const tag1 = await getFocusedTagName(page);
+    expect(tag1).toBe('button');
+    const visible1 = await isActiveFocusVisible(page);
+    expect(visible1).toBeTruthy();
+
+    await page.keyboard.press('Tab');
+    const tag2 = await getFocusedTagName(page);
+    expect(tag2).toBe('button');
+    const visible2 = await isActiveFocusVisible(page);
+    expect(visible2).toBeTruthy();
   });
 });
