@@ -2,7 +2,8 @@
   "name": "raphael-ai-pages",
   "version": "0.1.0",
   "scripts": {
-    "pretest": "npm install && npx playwright install",\n    "test": "npx playwright test"
+    "pretest": "npm install && npx playwright install",
+    "test": "npx playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.45.0"
