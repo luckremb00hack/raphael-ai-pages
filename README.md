@@ -4,10 +4,10 @@
 Questo progetto è una semplice pagina web che mostra tre pulsanti per salutare in italiano, inglese e spagnolo. Ogni pulsante visualizza un alert con il saluto corrispondente.
 
 ## Struttura del progetto
-- `index.html` – Pagina principale con i pulsanti e lo script inline.
-- `style.css` – Stili minimalisti, layout centrato, hover sui pulsanti e responsività di base.
-- `tests/button.test.js` – Test Playwright che verifica la presenza dei pulsanti e il corretto messaggio di alert.
-- `package.json` – Script npm per eseguire i test con Playwright.
+- [`index.html`](index.html) – Pagina principale con i pulsanti e lo script inline.
+- [`style.css`](style.css) – Stili minimalisti, layout centrato, hover sui pulsanti e responsività di base.
+- [`tests/button.test.js`](tests/button.test.js) – Test Playwright che verifica la presenza dei pulsanti e il corretto messaggio di alert.
+- [`package.json`](package.json) – Script npm per eseguire i test con Playwright.
 
 ## Prerequisiti
 - **Node.js** (>= 18) e **npm** installati.
