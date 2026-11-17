@@ -6,7 +6,7 @@ Questo progetto è una semplice pagina web che mostra tre pulsanti per salutare 
 ## Struttura del progetto
 - [`index.html`](index.html) – Pagina principale con i pulsanti e lo script inline.
 - [`style.css`](style.css) – Stili minimalisti, layout centrato, hover sui pulsanti e responsività di base.
-- [`tests/button.test.js`](tests/button.test.js) – Test Playwright che verifica la presenza dei pulsanti e il corretto messaggio di alert.
+- [`tests/button.test.js`](tests/button.test.js) – Test Playwright che verifica la presenza dei pulsanti, il corretto messaggio di alert, la navigazione da tastiera e il focus.
 - [`package.json`](package.json) – Script npm per eseguire i test con Playwright.
 
 ## Prerequisiti
@@ -37,7 +37,7 @@ Playwright è configurato per eseguire i test definiti in `tests/button.test.js`
 ```bash
 npm test
 ```
-Il comando avvierà Playwright, aprirà un browser headless, verificherà la presenza dei tre pulsanti e controllerà che gli alert mostrino i saluti corretti:
+Il comando avvierà Playwright, aprirà un browser headless, verificherà la presenza dei tre pulsanti, controllerà che gli alert mostrino i saluti corretti e testerà la navigazione da tastiera (Tab, focus-visible e attivazione con Enter):
 - **Italiano** → `Ciao!`
 - **English** → `Hello!`
 - **Español** → `¡Hola!`
@@ -48,17 +48,19 @@ Apri semplicemente `index.html` nel tuo browser oppure usa il server locale desc
 ## Accessibilità e Mobile
 
 ### Mobile
-La pagina è responsive grazie alle media query presenti in `style.css`. I pulsanti occupano l’intera larghezza su schermi piccoli e hanno dimensioni di clic adeguate.
+La pagina è responsive grazie alle media query presenti in `style.css` (per schermi < 600px). I pulsanti si adattano con un layout fluido, dimensioni adeguate al tap e spaziatura ottimizzata.
 
-### Tastiera
-I pulsanti sono `<button>` e rispondono a **Enter** e **Space**. Il focus è visibile tramite lo stile `:focus-visible` e gli attributi `aria-label` descrivono il contenuto.
+### Accessibilità e navigazione da tastiera
+- **Elementi nativi**: I pulsanti utilizzano il tag semantico `<button>` e sono arricchiti con attributi `aria-label` descrittivi.
+- **Focus visibile**: È implementato uno stile `:focus-visible` chiaro e conforme agli standard WCAG AA per il contrasto dei colori.
+- **Interazione da tastiera**: I pulsanti sono raggiungibili tramite il tasto **Tab** e attivabili con **Enter** e **Space**.
 
-### Test di accessibilità
-Puoi verificare la navigabilità da tastiera con Playwright (vedi `tests/button.test.js`).
-- **Node.js**: 18.x o superiore.
-- **Playwright**: la versione installata tramite `npm install` (verifica in `package.json`).
-- **Browser**: Playwright utilizza Chromium, Firefox e WebKit di default.
+### Istruzioni per testare la navigazione da tastiera
+1. Apri `index.html` nel browser.
+2. Premi il tasto **Tab** per spostare il focus sui pulsanti e verifica che l'indicatore di focus sia chiaramente visibile.
+3. Premi **Enter** o **Spazio** per attivare il pulsante e visualizzare l'alert corrispondente.
+4. Esegui i test automatizzati con Playwright digitando `npm test`.
 
 ---
 
-*Questo README è stato aggiornato da Vega per includere istruzioni di build, preview e test.*
+*Questo README è stato aggiornato da Deku per includere la sezione completa di Accessibilità e navigazione da tastiera.*
