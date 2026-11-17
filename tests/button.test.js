@@ -93,5 +93,25 @@ test.describe('Greeting buttons', () => {
     expect(tag2).toBe('button');
     const visible2 = await isActiveFocusVisible(page);
     expect(visible2).toBeTruthy();
+
+    await page.keyboard.press('Tab');
+    const tag3 = await getFocusedTagName(page);
+    expect(tag3).toBe('button');
+    const visible3 = await isActiveFocusVisible(page);
+    expect(visible3).toBeTruthy();
+  });
+
+  test('press Enter including keyCode 13 simulation on Spanish button shows ¡Hola!', async ({ page }) => {
+    page.once('dialog', dialog => {
+      expect(dialog.message()).toBe('¡Hola!');
+      dialog.dismiss();
+    });
+    const spanish = page.locator('#btn-es');
+    await spanish.focus();
+    await page.evaluate(() => {
+      const btn = document.getElementById('btn-es');
+      const event = new KeyboardEvent('keydown', { key: 'Enter', keyCode: 13, bubbles: true });
+      btn.dispatchEvent(event);
+    });
   });
 });
