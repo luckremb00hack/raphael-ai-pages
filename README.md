@@ -45,7 +45,16 @@ Il comando avvierà Playwright, aprirà un browser headless, verificherà la pre
 ## Generare una preview
 Apri semplicemente `index.html` nel tuo browser oppure usa il server locale descritto sopra. Non è necessario alcun build step aggiuntivo.
 
-## Note sulle versioni
+## Accessibilità e Mobile
+
+### Mobile
+La pagina è responsive grazie alle media query presenti in `style.css`. I pulsanti occupano l’intera larghezza su schermi piccoli e hanno dimensioni di clic adeguate.
+
+### Tastiera
+I pulsanti sono `<button>` e rispondono a **Enter** e **Space**. Il focus è visibile tramite lo stile `:focus-visible` e gli attributi `aria-label` descrivono il contenuto.
+
+### Test di accessibilità
+Puoi verificare la navigabilità da tastiera con Playwright (vedi `tests/button.test.js`).
 - **Node.js**: 18.x o superiore.
 - **Playwright**: la versione installata tramite `npm install` (verifica in `package.json`).
 - **Browser**: Playwright utilizza Chromium, Firefox e WebKit di default.
